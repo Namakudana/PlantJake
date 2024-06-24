@@ -10,7 +10,8 @@ class DetailPlant extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(plant.label),
+        title: Text(plant.label ,
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(

@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       final labelsData = await rootBundle.loadString('assets/15labels.txt');
       final descriptionsData =
-      await rootBundle.loadString('assets/descriptions.txt');
+          await rootBundle.loadString('assets/descriptions.txt');
 
       setState(() {
         plantLabels =
@@ -297,7 +297,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFFFFFF),
       appBar: AppBar(
+        backgroundColor: const Color(0xFFFFFFFF),
         title: const Text(
           'Welcome to PlantJake',
           style: TextStyle(
@@ -445,7 +447,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         const SizedBox(height: 8),
                         const Text(
-                          'Upload Gambar',
+                          'Unggah Gambar',
                           style: TextStyle(
                             color: Colors.white,
                             //fontFamily:'Roboto', // Example of using a custom fontFamily

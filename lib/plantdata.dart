@@ -1,4 +1,3 @@
-// plant_data.dart
 import 'model.dart';
 
 // nama

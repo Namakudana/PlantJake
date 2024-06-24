@@ -1,29 +1,37 @@
 import 'dart:convert';
 
 class FavoriteItem {
-  final String label;
-  final String description;
-  final double confidence; // Mengubah tipe data confidence menjadi double
+   String label;
+   double confidence;
+   String description;
+   // final DateTime dateSaved; // Tambahkan properti DateTime
+   // String imageUrl; // Tambahkan properti imageUrl
 
   FavoriteItem({
     required this.label,
-    required this.description,
     required this.confidence,
+    required this.description,
+    // required this.dateSaved, // Update constructor untuk menyertakan dateSaved
+    // required this.imageUrl, // Update constructor untuk menyertakan imageUrl
   });
 
   Map<String, dynamic> toMap() {
     return {
       'label': label,
-      'description': description,
       'confidence': confidence,
+      'description': description,
+      // 'imageUrl': imageUrl,
+      // 'dateSaved': DateTime.now(), // Ensure dateSaved is set to current date and time
     };
   }
 
   factory FavoriteItem.fromMap(Map<String, dynamic> map) {
     return FavoriteItem(
       label: map['label'],
+      confidence: map['confidence'] is int ? (map['confidence'] as int).toDouble() : map['confidence'],
       description: map['description'],
-      confidence: map['confidence'],
+      // imageUrl: map['imageUrl'],
+      // dateSaved: DateTime.parse(map['dateSaved']), // Deserialize String ISO 8601 to DateTime
     );
   }
 

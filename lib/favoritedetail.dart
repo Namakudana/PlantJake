@@ -9,7 +9,9 @@ class FavoriteDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFFFFFF),
       appBar: AppBar(
+        backgroundColor: const Color(0xFFFFFFFF),
         title: const Text('Favorite Detail'),
       ),
       body: Padding(
@@ -19,6 +21,14 @@ class FavoriteDetail extends StatelessWidget {
           children: [
             Text(
               favoriteItem.label,
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              '${favoriteItem.confidence.toStringAsFixed(2)}%',
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
