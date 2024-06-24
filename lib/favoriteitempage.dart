@@ -8,10 +8,12 @@ class FavoriteItemPage extends StatefulWidget {
   const FavoriteItemPage({super.key});
 
   @override
-  _FavoriteItemPageState createState() => _FavoriteItemPageState();
+  FavoriteItemPageState createState() {
+    return FavoriteItemPageState();
+  }
 }
 
-class _FavoriteItemPageState extends State<FavoriteItemPage> {
+class FavoriteItemPageState extends State<FavoriteItemPage> {
   List<FavoriteItem> favoriteItems = [];
   FavoriteService favoriteService = FavoriteService(); // Instantiate FavoriteService
 
@@ -25,7 +27,7 @@ class _FavoriteItemPageState extends State<FavoriteItemPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> favoriteItemsJson =
         prefs.getStringList('favorite_items') ?? <String>[];
-
+    print('Saved favorite items: $favoriteItemsJson');
     setState(() {
       favoriteItems = favoriteItemsJson
           .map((itemJson) => FavoriteItem.fromJson(itemJson))

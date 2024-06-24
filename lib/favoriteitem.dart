@@ -1,29 +1,29 @@
 import 'dart:convert';
 
 class FavoriteItem {
-  final String label;
-  final String description;
-  final double confidence; // Mengubah tipe data confidence menjadi double
+   String label;
+   double confidence;
+   String description;
 
   FavoriteItem({
     required this.label,
-    required this.description,
     required this.confidence,
+    required this.description,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'label': label,
-      'description': description,
       'confidence': confidence,
+      'description': description,
     };
   }
 
   factory FavoriteItem.fromMap(Map<String, dynamic> map) {
     return FavoriteItem(
       label: map['label'],
+      confidence: map['confidence'] is int ? (map['confidence'] as int).toDouble() : map['confidence'],
       description: map['description'],
-      confidence: map['confidence'],
     );
   }
 

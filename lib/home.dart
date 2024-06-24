@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       final labelsData = await rootBundle.loadString('assets/15labels.txt');
       final descriptionsData =
-      await rootBundle.loadString('assets/descriptions.txt');
+          await rootBundle.loadString('assets/descriptions.txt');
 
       setState(() {
         plantLabels =

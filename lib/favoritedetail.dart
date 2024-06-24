@@ -26,6 +26,14 @@ class FavoriteDetail extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
+              '${favoriteItem.confidence.toStringAsFixed(2)}%',
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
               favoriteItem.description,
               style: const TextStyle(
                 fontSize: 18,
