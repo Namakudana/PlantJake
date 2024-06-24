@@ -4,16 +4,14 @@ import 'package:plantjake/favoriteitem.dart';
 
 class DetailScreen extends StatelessWidget {
   final String label;
-  final double confidence;
   final String description;
-  // final String imageUrl; // Tambahkan properti imageUrl
+  final double confidence;
 
   const DetailScreen({
     super.key,
     required this.label,
-    required this.confidence,
     required this.description,
-    // required this.imageUrl, // Tambahkan parameter imageUrl ke constructor
+    required this.confidence,
   });
 
   Future<void> _saveToFavorites(BuildContext context) async {
@@ -24,23 +22,19 @@ class DetailScreen extends StatelessWidget {
         prefs.getStringList('favorite_items') ?? <String>[];
 
     // Add new favorite item
-    // print('Saved favorite items: $confidence');
-
-    FavoriteItem favoriteItem = FavoriteItem(label: label, confidence: confidence, description: description,);
+    FavoriteItem favoriteItem = FavoriteItem(label: label, description: description, confidence: confidence);
     favoriteItemsJson.add(favoriteItem.toJson());
 
     // Save updated list back to SharedPreferences
     await prefs.setStringList('favorite_items', favoriteItemsJson);
-    // print('Saved favorite items: $favoriteItemsJson');
+
     // Show snackbar
-    //if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Saved to favorites!'),
-          duration: Duration(seconds: 2),
-        ),
-      );
-    //}
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Saved to favorites!'),
+        duration: Duration(seconds: 2),
+      ),
+    );
   }
 
   @override
