@@ -23,7 +23,11 @@ class DetailScreen extends StatelessWidget {
 
     // Add new favorite item
     FavoriteItem favoriteItem = FavoriteItem(
-        label: label, description: description, confidence: confidence);
+        label: label,
+        description: description,
+        confidence: confidence,
+        dateSaved: DateTime.now() // Add current date and time
+        );
     favoriteItemsJson.add(favoriteItem.toJson());
 
     // Save updated list back to SharedPreferences

@@ -3,8 +3,7 @@ import 'package:plantjake/favoritedetail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:plantjake/favoriteitem.dart';
 import 'package:plantjake/favoriteservice.dart' show FavoriteService;
-// import 'package:intl/intl.dart';
-
+import 'package:intl/intl.dart';
 
 class FavoriteItemPage extends StatefulWidget {
   const FavoriteItemPage({super.key});
@@ -42,7 +41,7 @@ class FavoriteItemPageState extends State<FavoriteItemPage> {
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> favoriteItemsJson =
-    favoriteItems.map((item) => item.toJson()).toList();
+        favoriteItems.map((item) => item.toJson()).toList();
     await prefs.setStringList('favorite_items', favoriteItemsJson);
   }
 
@@ -99,10 +98,10 @@ class FavoriteItemPageState extends State<FavoriteItemPage> {
                       '${favoriteItem.confidence.toStringAsFixed(2)}%',
                       style: const TextStyle(fontSize: 16),
                     ),
-                    // Text(
-                    //   'Saved on: ${DateFormat('dd/MM/yyyy').format(favoriteItem.dateSaved)}', // Tampilkan tanggal disimpan
-                    //   style: const TextStyle(fontSize: 12, color: Colors.grey),
-                    // ),
+                    Text(
+                      'Saved on: ${DateFormat('dd/MM/yyyy HH:mm').format(favoriteItem.dateSaved)}', // Tampilkan tanggal disimpan
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
                   ],
                 ),
                 onTap: () {
@@ -119,7 +118,6 @@ class FavoriteItemPageState extends State<FavoriteItemPage> {
           );
         },
       ),
-
     );
   }
 }
