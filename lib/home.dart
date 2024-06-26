@@ -201,7 +201,14 @@ class _MyHomePageState extends State<MyHomePage> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
-              title: const Text("Hasil Deteksi"),
+              title: const Text(
+                "Hasil Deteksi",
+                style: TextStyle(
+                    fontFamily: "Baloo2",
+                    fontSize: 30,
+                    color: Color(0xFF1A4D2E),
+                    height: 2),
+              ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,7 +217,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     label,
                     style: const TextStyle(
                       fontSize: 20,
-                      color: Colors.grey,
+                      color: Colors.black,
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -218,7 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     "${confidence.toStringAsFixed(0)}%",
                     style: const TextStyle(
                       fontSize: 20,
-                      color: Colors.grey,
+                      color: Colors.black,
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -238,7 +245,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   child: const Text(
-                    'Upload Again',
+                    'Unggah Lagi',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -265,7 +272,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   child: const Text(
-                    'View Details',
+                    'Lihat Detail',
                     style: TextStyle(
                       color: Colors.white, // Warna font
                       fontSize: 16, // Ukuran font
@@ -300,13 +307,27 @@ class _MyHomePageState extends State<MyHomePage> {
       backgroundColor: const Color(0xFFFFFFFF),
       appBar: AppBar(
         backgroundColor: const Color(0xFFFFFFFF),
-        title: const Text(
-          'Welcome to PlantJake',
-          style: TextStyle(
-              fontFamily: "Baloo2",
-              fontSize: 40,
-              color: Color(0xFF1A4D2E),
-              height: 2.0),
+        title: const Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Selamat datang di',
+              style: TextStyle(
+                  fontFamily: "Baloo2",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 40,
+                  color: Color(0xFF1A4D2E),
+                  height: 2),
+            ),
+            Text(
+              'Plantjake',
+              style: TextStyle(
+                  fontFamily: "Baloo2",
+                  fontSize: 40,
+                  color: Color(0xFF1A4D2E),
+                  height: 1.5),
+            ),
+          ],
         ),
         toolbarHeight: 150, // Tinggi AppBar
         centerTitle: true, // Memposisikan judul ke tengah
@@ -316,7 +337,7 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
-              const SizedBox(height: 20),
+              const SizedBox(height: 5),
               Card(
                 elevation: 10,
                 shape: RoundedRectangleBorder(

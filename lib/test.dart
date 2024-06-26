@@ -11,12 +11,14 @@ class PlantList extends StatelessWidget {
       backgroundColor: const Color(0xFFFFFFFF),
       appBar: AppBar(
         backgroundColor: const Color(0xFFFFFFFF),
-        title: const Text('Artikel',
+        title: const Text(
+          'Artikel',
           style: TextStyle(
               fontFamily: "Baloo2",
-              fontSize: 40,
+              fontSize: 30,
               color: Color(0xFF1A4D2E),
-              height: 2.0),),
+              height: 2.0),
+        ),
         toolbarHeight: 80,
         // elevation: 5, // Menambahkan bayangan dengan elevation
       ),

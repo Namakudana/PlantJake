@@ -10,9 +10,10 @@ class DetailPlant extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(plant.label ,
-        ),
-      ),
+          // title: Text(
+          //   plant.label ,
+          // ),
+          ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -52,7 +53,7 @@ class DetailPlant extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             fontFamily: 'baloo2',
                             color: Color(
-                                0xFF4F6F52), // Mengatur warna teks menjadi hijau
+                                0xFF1A4D2E), // Mengatur warna teks menjadi hijau
                           ),
                         ),
                         const SizedBox(height: 16.0),
@@ -94,7 +95,7 @@ class DetailPlant extends StatelessWidget {
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'baloo2',
-                  color: Color(0xFF4F6F52), // Warna font
+                  color: Color(0xFF1A4D2E), // Warna font
                 ),
               ),
               const SizedBox(height: 20),
@@ -102,6 +103,10 @@ class DetailPlant extends StatelessWidget {
               Text(
                 plant.description,
                 textAlign: TextAlign.justify,
+                style: const TextStyle(
+                  fontSize:
+                      16, // Ganti dengan nama font family yang Anda gunakan
+                ),
               ),
               const SizedBox(height: 30),
               // Deskripsi tanaman
@@ -111,7 +116,7 @@ class DetailPlant extends StatelessWidget {
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'baloo2',
-                  color: Color(0xFF4F6F52), // Warna font
+                  color: Color(0xFF1A4D2E), // Warna font
                 ),
               ),
               const SizedBox(height: 20),
@@ -119,6 +124,10 @@ class DetailPlant extends StatelessWidget {
               Text(
                 plant.benefit,
                 textAlign: TextAlign.justify,
+                style: const TextStyle(
+                  fontSize:
+                      16, // Ganti dengan nama font family yang Anda gunakan
+                ),
               ),
               const SizedBox(height: 30),
               // Deskripsi tanaman
@@ -128,7 +137,7 @@ class DetailPlant extends StatelessWidget {
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'baloo2',
-                  color: Color(0xFF4F6F52), // Warna font
+                  color: Color(0xFF1A4D2E), // Warna font
                 ),
               ),
               const SizedBox(height: 20),
@@ -136,6 +145,10 @@ class DetailPlant extends StatelessWidget {
               Text(
                 plant.content,
                 textAlign: TextAlign.justify,
+                style: const TextStyle(
+                  fontSize:
+                      16, // Ganti dengan nama font family yang Anda gunakan
+                ),
               ),
               const SizedBox(height: 30),
               // Deskripsi tanaman
@@ -145,7 +158,7 @@ class DetailPlant extends StatelessWidget {
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'baloo2',
-                  color: Color(0xFF4F6F52), // Warna font
+                  color: Color(0xFF1A4D2E), // Warna font
                 ),
               ),
               const SizedBox(height: 20),
@@ -153,6 +166,10 @@ class DetailPlant extends StatelessWidget {
               Text(
                 plant.use,
                 textAlign: TextAlign.justify,
+                style: const TextStyle(
+                  fontSize:
+                      16, // Ganti dengan nama font family yang Anda gunakan
+                ),
               ),
             ],
           ),

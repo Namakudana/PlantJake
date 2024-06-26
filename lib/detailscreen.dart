@@ -22,7 +22,8 @@ class DetailScreen extends StatelessWidget {
         prefs.getStringList('favorite_items') ?? <String>[];
 
     // Add new favorite item
-    FavoriteItem favoriteItem = FavoriteItem(label: label, description: description, confidence: confidence);
+    FavoriteItem favoriteItem = FavoriteItem(
+        label: label, description: description, confidence: confidence);
     favoriteItemsJson.add(favoriteItem.toJson());
 
     // Save updated list back to SharedPreferences
@@ -41,7 +42,16 @@ class DetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detail Hasil Deteksi'),
+        title: const Text(
+          'Hasil Deteksi',
+          style: TextStyle(
+            fontFamily: "Baloo2",
+            fontSize: 30,
+            color: Color(0xFF1A4D2E),
+            height: 2.0,
+          ),
+        ),
+        // toolbarHeight: 80,
         automaticallyImplyLeading: false, // Disable back button
       ),
       body: Padding(
@@ -49,26 +59,57 @@ class DetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // const SizedBox(height: 5),
+            const Text(
+              'Jenis Tanaman :', // Display confidence with two decimal places
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                fontFamily: "Baloo2",
+                color: Color(0xFF1A4D2E),
+              ),
+            ),
+            const SizedBox(height: 5),
             Text(
               label,
               style: const TextStyle(
-                fontSize: 22,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
+            const Text(
+              'Hasil Prediksi :', // Display confidence with two decimal places
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                fontFamily: "Baloo2",
+                color: Color(0xFF1A4D2E),
+              ),
+            ),
+            const SizedBox(height: 5),
             Text(
               '${confidence.toStringAsFixed(2)}%', // Display confidence with two decimal places
               style: const TextStyle(
-                fontSize: 22,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
+            const Text(
+              'Deskripsi :', // Display confidence with two decimal places
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                fontFamily: "Baloo2",
+                color: Color(0xFF1A4D2E),
+              ),
+            ),
+            const SizedBox(height: 5),
             Text(
               description, // Display plant description
               style: const TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 color: Colors.black,
               ),
               textAlign: TextAlign.justify,
@@ -93,7 +134,7 @@ class DetailScreen extends StatelessWidget {
                     ),
                   ),
                   child: const Text(
-                    'Close',
+                    'Kembali',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -112,7 +153,7 @@ class DetailScreen extends StatelessWidget {
                     color: Colors.white,
                   ),
                   label: const Text(
-                    'Save Favorite',
+                    'Simpan ke Favorite',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

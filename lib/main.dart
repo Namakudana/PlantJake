@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+// import 'package:plantjake/detailscreen.dart';
+// import 'package:plantjake/favoritedetail.dart';
+// import 'package:plantjake/home.dart';
 import 'package:plantjake/splash.dart';
 
 void main() {
@@ -13,6 +16,9 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Splash(),
+      //home: MyHomePage(title: '',),
+      //home: DetailScreen(label: '',  description: '', confidence: 0.0,),
+      //home: FavoriteDetail(favoriteItem: '',),
     );
   }
 }

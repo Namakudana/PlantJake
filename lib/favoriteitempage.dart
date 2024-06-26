@@ -56,7 +56,7 @@ class FavoriteItemPageState extends State<FavoriteItemPage> {
           'Favorite',
           style: TextStyle(
             fontFamily: "Baloo2",
-            fontSize: 40,
+            fontSize: 30,
             color: Color(0xFF1A4D2E),
             height: 2.0,
           ),
