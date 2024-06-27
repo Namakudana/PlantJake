@@ -99,7 +99,8 @@ class FavoriteItemPageState extends State<FavoriteItemPage> {
                       style: const TextStyle(fontSize: 16),
                     ),
                     Text(
-                      'Saved on: ${DateFormat('dd/MM/yyyy HH:mm').format(favoriteItem.dateSaved)}', // Tampilkan tanggal disimpan
+                      DateFormat('dd/MM/yyyy HH:mm').format(
+                          favoriteItem.dateSaved), // Tampilkan tanggal disimpan
                       style: const TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                   ],
