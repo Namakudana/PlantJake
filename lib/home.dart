@@ -348,7 +348,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-        toolbarHeight: 150, // Tinggi AppBar
+        toolbarHeight: 100, // Tinggi AppBar
         centerTitle: true, // Memposisikan judul ke tengah
       ),
       body: LayoutBuilder(
