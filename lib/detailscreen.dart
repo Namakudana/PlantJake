@@ -75,8 +75,7 @@ class DetailScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // ignore: unnecessary_null_comparison
-                        if (imagePath !=
-                            null) // Conditionally display the image
+                        if (imagePath != null && File(imagePath).existsSync())
                           Card(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -93,29 +92,27 @@ class DetailScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                        const SizedBox(
-                            width: 16.0), // Jarak antara gambar dan info
+                        const SizedBox(width: 16.0),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Judul tanaman
                               Text(
                                 label,
                                 style: const TextStyle(
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'baloo2',
-                                  color: Color(
-                                      0xFF1A4D2E), // Mengatur warna teks menjadi hijau
+                                  fontFamily: 'Baloo2',
+                                  color: Color(0xFF1A4D2E),
                                 ),
                               ),
                               const SizedBox(height: 16.0),
-                              // Hasil Prediksi
                               const Text(
                                 'Hasil Prediksi :',
                                 style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               const SizedBox(height: 5),
                               Text(
@@ -129,14 +126,13 @@ class DetailScreen extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 30),
-                    // Deskripsi tanaman
                     const Text(
                       'Deskripsi',
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        fontFamily: 'baloo2',
-                        color: Color(0xFF1A4D2E), // Warna font
+                        fontFamily: 'Baloo2',
+                        color: Color(0xFF1A4D2E),
                       ),
                     ),
                     const SizedBox(height: 20),

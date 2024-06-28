@@ -22,6 +22,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final logger = Logger();
   List<String> plantLabels = [];
   Map<String, String> plantDescriptions = {};
+  bool isLoading = false; // State for loading indicator
 
   @override
   void initState() {
@@ -108,6 +109,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> runModelOnImage(String path) async {
+    setState(() {
+      isLoading = true; // Set loading state to true
+    });
+
     final BuildContext dialogContext = context; // Save context here
 
     try {
@@ -125,6 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {
           confidence = 0.0;
           label = 'No match found';
+          isLoading = false; // Set loading state to false
         });
         // Tampilkan dialog setelah operasi asinkron selesai
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -166,6 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
           confidence = highestConfidence['confidence'] * 100;
           label = predictedLabel;
         }
+        isLoading = false; // Set loading state to false
       });
 
       // Tampilkan dialog setelah operasi asinkron selesai
@@ -186,6 +193,9 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     } catch (e) {
       logger.e("Error running model: $e");
+      setState(() {
+        isLoading = false; // Set loading state to false on error
+      });
       // Handle error
     }
   }
@@ -320,177 +330,191 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'Selamat datang di',
               style: TextStyle(
-                  fontFamily: "Baloo2",
-                  fontWeight: FontWeight.bold,
-                  fontSize: 40,
-                  color: Color(0xFF1A4D2E),
-                  height: 2),
+                fontFamily: "Baloo2",
+                fontWeight: FontWeight.bold,
+                fontSize: 30, // Sesuaikan ukuran font agar responsif
+                color: Color(0xFF1A4D2E),
+                height: 2,
+              ),
             ),
             Text(
               'Plantjake',
               style: TextStyle(
-                  fontFamily: "Baloo2",
-                  fontSize: 40,
-                  color: Color(0xFF1A4D2E),
-                  height: 1.5),
+                fontFamily: "Baloo2",
+                fontSize: 35, // Sesuaikan ukuran font agar responsif
+                color: Color(0xFF1A4D2E),
+                height: 1.5,
+              ),
             ),
           ],
         ),
         toolbarHeight: 150, // Tinggi AppBar
         centerTitle: true, // Memposisikan judul ke tengah
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: <Widget>[
-              const SizedBox(height: 5),
-              Card(
-                elevation: 10,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Container(
-                  width: 300,
-                  height: 300,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    image: filePath == null
-                        ? const DecorationImage(
-                            image: AssetImage('assets/ilustrasi.png'),
-                            fit: BoxFit.cover,
-                          )
-                        : DecorationImage(
-                            image: FileImage(filePath!),
-                            fit: BoxFit.cover,
-                          ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 50),
-              Container(
-                alignment: Alignment.center,
-                child: const Text(
-                  "Petunjuk Penggunaan:",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF1A4D2E),
-                    fontFamily: "Baloo2",
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Container(
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  "1. Klik tombol kamera untuk mengambil gambar.",
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              const SizedBox(height: 5),
-              Container(
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  "2. Klik tombol galeri untuk memilih gambar dari galeri.",
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              const SizedBox(height: 5),
-              Container(
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  "3. Aplikasi akan mendeteksi jenis tanaman dan menampilkan hasilnya.",
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              const SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment
-                    .center, // Align buttons to the center horizontally
-                children: [
-                  ElevatedButton(
-                    onPressed: pickImageOnCamera,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF4F6F52),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 35,
-                        vertical: 20,
-                      ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          double screenWidth = constraints.maxWidth;
+          double screenHeight = constraints.maxHeight;
+          double imageSize =
+              screenWidth * 0.7; // Sesuaikan ukuran gambar agar responsif
+
+          return SingleChildScrollView(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: <Widget>[
+                    const SizedBox(height: 5),
+                    Card(
+                      elevation: 10,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(13),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Container(
+                        width: imageSize,
+                        height: imageSize,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          image: filePath == null
+                              ? const DecorationImage(
+                                  image: AssetImage('assets/ilustrasi.png'),
+                                  fit: BoxFit.cover,
+                                )
+                              : DecorationImage(
+                                  image: FileImage(filePath!),
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
                       ),
                     ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(
-                          'assets/icon_camera.png', // Replace with your image asset path
-                          width: 24,
-                          height: 24,
+                    const SizedBox(height: 50),
+                    Container(
+                      alignment: Alignment.center,
+                      child: const Text(
+                        "Petunjuk Penggunaan:",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1A4D2E),
+                          fontFamily: "Baloo2",
                         ),
-                        const SizedBox(height: 8),
-                        const Text(
-                          'Buka Kamera',
-                          style: TextStyle(
-                            color: Colors.white,
-                            //fontFamily: 'Roboto', // Example of using a custom fontFamily
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
+                        "1. Klik tombol kamera untuk mengambil gambar.",
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
+                        "2. Klik tombol galeri untuk memilih gambar dari galeri.",
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
+                        "3. Aplikasi akan mendeteksi jenis tanaman dan menampilkan hasilnya.",
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    const SizedBox(height: 50),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: pickImageOnCamera,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF4F6F52),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: screenWidth * 0.05, // Responsif
+                                vertical: screenHeight * 0.02, // Responsif
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(13),
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset(
+                                  'assets/icon_camera.png',
+                                  width: screenWidth * 0.06, // Responsif
+                                  height: screenWidth * 0.06, // Responsif
+                                ),
+                                const SizedBox(height: 8),
+                                const Text(
+                                  'Buka Kamera',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: pickImageOnGallery,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF1A4D2E),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: screenWidth * 0.05, // Responsif
+                                vertical: screenHeight * 0.02, // Responsif
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(13),
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset(
+                                  'assets/icon_upload.png',
+                                  width: screenWidth * 0.06, // Responsif
+                                  height: screenWidth * 0.06, // Responsif
+                                ),
+                                const SizedBox(height: 8),
+                                const Text(
+                                  'Unggah Gambar',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(width: 20), // Add spacing between buttons
-                  ElevatedButton(
-                    onPressed: pickImageOnGallery,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF1A4D2E),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 35,
-                        vertical: 20,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(13),
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(
-                          'assets/icon_upload.png', // Replace with your image asset path
-                          width: 24,
-                          height: 24,
-                        ),
-                        const SizedBox(height: 8),
-                        const Text(
-                          'Unggah Gambar',
-                          style: TextStyle(
-                            color: Colors.white,
-                            //fontFamily:'Roboto', // Example of using a custom fontFamily
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

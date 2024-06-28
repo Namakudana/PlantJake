@@ -10,12 +10,11 @@ class FavoriteItemPage extends StatefulWidget {
   const FavoriteItemPage({super.key});
 
   @override
-  FavoriteItemPageState createState() {
-    return FavoriteItemPageState();
-  }
+  // ignore: library_private_types_in_public_api
+  _FavoriteItemPageState createState() => _FavoriteItemPageState();
 }
 
-class FavoriteItemPageState extends State<FavoriteItemPage> {
+class _FavoriteItemPageState extends State<FavoriteItemPage> {
   List<FavoriteItem> favoriteItems = [];
 
   @override
@@ -25,32 +24,45 @@ class FavoriteItemPageState extends State<FavoriteItemPage> {
   }
 
   Future<void> _loadFavorites() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> favoriteItemsJson =
-        prefs.getStringList('favorite_items') ?? <String>[];
-    setState(() {
-      favoriteItems = favoriteItemsJson
-          .map((itemJson) => FavoriteItem.fromJson(itemJson))
-          .toList();
-    });
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      List<String>? favoriteItemsJson = prefs.getStringList('favorite_items');
+      if (favoriteItemsJson != null) {
+        setState(() {
+          favoriteItems = favoriteItemsJson
+              .map((itemJson) => FavoriteItem.fromJson(itemJson))
+              .toList();
+        });
+      }
+    } catch (e) {
+      // Handle any errors that occur during deserialization
+      // ignore: avoid_print
+      print('Failed to load favorite items: $e');
+    }
   }
 
   Future<void> _deleteFavorite(int index) async {
-    setState(() {
-      favoriteItems.removeAt(index);
-    });
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> favoriteItemsJson =
-        favoriteItems.map((item) => item.toJson()).toList();
-    await prefs.setStringList('favorite_items', favoriteItemsJson);
+    try {
+      setState(() {
+        favoriteItems.removeAt(index);
+      });
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      List<String> favoriteItemsJson =
+          favoriteItems.map((item) => item.toJson()).toList();
+      await prefs.setStringList('favorite_items', favoriteItemsJson);
+    } catch (e) {
+      // Handle any errors that occur during deletion
+      // ignore: avoid_print
+      print('Failed to delete favorite item: $e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: const Color(0xFFFFFFFF),
+        backgroundColor: Colors.white,
         title: const Text(
           'Favorit',
           style: TextStyle(
@@ -140,7 +152,9 @@ class FavoriteItemPageState extends State<FavoriteItemPage> {
                             DateFormat('dd/MM/yyyy HH:mm')
                                 .format(favoriteItem.dateSaved),
                             style: const TextStyle(
-                                fontSize: 12, color: Colors.grey),
+                              fontSize: 12,
+                              color: Colors.grey,
+                            ),
                           ),
                         ],
                       ),

@@ -12,12 +12,12 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    _navigatetohome();
+    _navigateToHome();
   }
 
-  _navigatetohome() async {
+  _navigateToHome() async {
     await Future.delayed(
-        const Duration(milliseconds: 2000)); // Delay for 2 seconds
+        const Duration(milliseconds: 3000)); // Delay for 2 seconds
     Navigator.pushReplacement(
       // ignore: use_build_context_synchronously
       context,

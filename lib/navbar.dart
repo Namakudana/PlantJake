@@ -45,7 +45,8 @@ class _NavbarState extends State<Navbar> {
         unselectedLabelStyle: const TextStyle(
           color: Colors.grey,
         ),
-        backgroundColor: const Color(0xFFFFFFFF), // Menambahkan warna latar belakang
+        backgroundColor:
+            const Color(0xFFFFFFFF), // Menambahkan warna latar belakang
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
