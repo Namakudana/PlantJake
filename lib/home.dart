@@ -138,6 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
               context,
               label,
               description,
+              filePath?.path, // Menggunakan filePath?.path sebagai imagePath
             ),
           );
         });
@@ -179,6 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
             context,
             label,
             description,
+            filePath?.path ?? '', // Ensure filePath?.path is non-null
           ),
         );
       });
@@ -189,12 +191,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void showDetectionResult(
-      BuildContext context,
-      String label,
-      String description,
-      double confidence,
-      Function pickImageOnCamera,
-      Function(BuildContext, String, String) viewDetail) {
+    BuildContext context,
+    String label,
+    String description,
+    double confidence,
+    Function pickImageOnCamera,
+    Function(BuildContext, String, String) viewDetail,
+  ) {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
@@ -204,10 +207,11 @@ class _MyHomePageState extends State<MyHomePage> {
               title: const Text(
                 "Hasil Deteksi",
                 style: TextStyle(
-                    fontFamily: "Baloo2",
-                    fontSize: 30,
-                    color: Color(0xFF1A4D2E),
-                    height: 2),
+                  fontFamily: "Baloo2",
+                  fontSize: 30,
+                  color: Color(0xFF1A4D2E),
+                  height: 2,
+                ),
               ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -253,33 +257,33 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(dialogContext).pop();
-                    viewDetail(
-                      context,
-                      label,
-                      description,
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    elevation: 4,
-                    backgroundColor:
-                        const Color(0xFF1A4D2E), // Warna latar belakang tombol
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                if (label !=
+                    'No match found') // Conditionally show "Lihat Detail" button
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(dialogContext).pop();
+                      viewDetail(
+                        context,
+                        label,
+                        description,
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      elevation: 4,
+                      backgroundColor: const Color(0xFF1A4D2E),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: const Text(
+                      'Lihat Detail',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  child: const Text(
-                    'Lihat Detail',
-                    style: TextStyle(
-                      color: Colors.white, // Warna font
-                      fontSize: 16, // Ukuran font
-                      fontWeight: FontWeight.bold, // Gaya font
-                    ),
-                  ),
-                ),
               ],
             );
           },
@@ -288,7 +292,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void viewDetail(BuildContext context, String label, String description) {
+  void viewDetail(BuildContext context, String label, String description,
+      String? imagePath) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -296,6 +301,8 @@ class _MyHomePageState extends State<MyHomePage> {
           label: label,
           description: description,
           confidence: confidence,
+          imagePath:
+              imagePath ?? '', // Use a default value if imagePath is null
         ),
       ),
     );

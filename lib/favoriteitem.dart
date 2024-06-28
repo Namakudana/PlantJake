@@ -5,14 +5,14 @@ class FavoriteItem {
   double confidence;
   String description;
   DateTime dateSaved;
-  // String imageUrl; // Tambahkan properti imageUrl
+  String imagePath; // Tambahkan properti imagePath
 
   FavoriteItem({
     required this.label,
     required this.confidence,
     required this.description,
     required this.dateSaved, // Update constructor untuk menyertakan dateSaved
-    // required this.imageUrl, // Update constructor untuk menyertakan imageUrl
+    required this.imagePath, // Tambahkan imagePath pada constructor
   });
 
   Map<String, dynamic> toMap() {
@@ -22,8 +22,7 @@ class FavoriteItem {
       'description': description,
       'dateSaved': dateSaved
           .toIso8601String(), // Ensure dateSaved is set to current date and time
-      // 'imageUrl': imageUrl,
-      // 'dateSaved': DateTime.now(), // Ensure dateSaved is set to current date and time
+      'imagePath': imagePath, // Tambahkan imagePath ke dalam map
     };
   }
 
@@ -34,9 +33,9 @@ class FavoriteItem {
           ? (map['confidence'] as int).toDouble()
           : map['confidence'],
       description: map['description'],
-      // imageUrl: map['imageUrl'],
       dateSaved: DateTime.parse(
           map['dateSaved']), // Deserialize String ISO 8601 to DateTime
+      imagePath: map['imagePath'], // Deserialize imagePath
     );
   }
 

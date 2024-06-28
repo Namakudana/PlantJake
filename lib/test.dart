@@ -31,7 +31,25 @@ class PlantList extends StatelessWidget {
             child: ListTile(
               title: Text(plant.label),
               subtitle: Text(plant.resume),
-              leading: Image.network(plant.imageUrl),
+              leading: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                      5), // Atur border radius sesuai kebutuhan
+                ),
+                elevation: 2, // Atur elevation jika diperlukan
+                child: SizedBox(
+                  width: 70,
+                  height: 50,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                        5), // Sesuaikan dengan border radius Card
+                    child: Image.network(
+                      plant.imageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
               trailing: const Icon(Icons.arrow_forward_rounded),
               onTap: () {
                 Navigator.push(

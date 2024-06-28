@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:plantjake/favoriteitem.dart';
@@ -6,12 +7,14 @@ class DetailScreen extends StatelessWidget {
   final String label;
   final String description;
   final double confidence;
+  final String imagePath;
 
   const DetailScreen({
     super.key,
     required this.label,
     required this.description,
     required this.confidence,
+    required this.imagePath,
   });
 
   Future<void> _saveToFavorites(BuildContext context) async {
@@ -23,17 +26,19 @@ class DetailScreen extends StatelessWidget {
 
     // Add new favorite item
     FavoriteItem favoriteItem = FavoriteItem(
-        label: label,
-        description: description,
-        confidence: confidence,
-        dateSaved: DateTime.now() // Add current date and time
-        );
+      label: label,
+      description: description,
+      confidence: confidence,
+      dateSaved: DateTime.now(),
+      imagePath: imagePath, // Use imagePath directly (nullable)
+    );
     favoriteItemsJson.add(favoriteItem.toJson());
 
     // Save updated list back to SharedPreferences
     await prefs.setStringList('favorite_items', favoriteItemsJson);
 
     // Show snackbar
+    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Saved to favorites!'),
@@ -55,76 +60,105 @@ class DetailScreen extends StatelessWidget {
             height: 2.0,
           ),
         ),
-        // toolbarHeight: 80,
         automaticallyImplyLeading: false, // Disable back button
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // const SizedBox(height: 5),
-            const Text(
-              'Jenis Tanaman :', // Display confidence with two decimal places
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Baloo2",
-                color: Color(0xFF1A4D2E),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // ignore: unnecessary_null_comparison
+                        if (imagePath !=
+                            null) // Conditionally display the image
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: SizedBox(
+                                width: 150,
+                                height: 150,
+                                child: Image.file(
+                                  File(imagePath),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                        const SizedBox(
+                            width: 16.0), // Jarak antara gambar dan info
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Judul tanaman
+                              Text(
+                                label,
+                                style: const TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'baloo2',
+                                  color: Color(
+                                      0xFF1A4D2E), // Mengatur warna teks menjadi hijau
+                                ),
+                              ),
+                              const SizedBox(height: 16.0),
+                              // Hasil Prediksi
+                              const Text(
+                                'Hasil Prediksi :',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                '${confidence.toStringAsFixed(2)}%',
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                              const SizedBox(height: 16.0),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 30),
+                    // Deskripsi tanaman
+                    const Text(
+                      'Deskripsi',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'baloo2',
+                        color: Color(0xFF1A4D2E), // Warna font
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      description,
+                      textAlign: TextAlign.justify,
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 5),
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Hasil Prediksi :', // Display confidence with two decimal places
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Baloo2",
-                color: Color(0xFF1A4D2E),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Text(
-              '${confidence.toStringAsFixed(2)}%', // Display confidence with two decimal places
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Deskripsi :', // Display confidence with two decimal places
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Baloo2",
-                color: Color(0xFF1A4D2E),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Text(
-              description, // Display plant description
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.black,
-              ),
-              textAlign: TextAlign.justify,
-            ),
-            const Spacer(), // Spacer to push buttons to the bottom
-            Row(
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    // Handle close button press
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
@@ -146,10 +180,9 @@ class DetailScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 50), // Spacer between buttons
+                const SizedBox(width: 40),
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Handle save favorite button press
                     _saveToFavorites(context);
                   },
                   icon: const Icon(
@@ -167,7 +200,7 @@ class DetailScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF1A4D2E),
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 60,
+                      horizontal: 30,
                       vertical: 15,
                     ),
                     shape: RoundedRectangleBorder(
@@ -177,8 +210,8 @@ class DetailScreen extends StatelessWidget {
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

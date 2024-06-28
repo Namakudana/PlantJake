@@ -71,7 +71,7 @@ class DetailPlant extends StatelessWidget {
                         const SizedBox(height: 16.0),
                         // Tipe tanaman
                         const Text(
-                          'Type :',
+                          'Tipe :',
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),

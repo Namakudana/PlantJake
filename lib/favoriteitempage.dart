@@ -1,9 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:plantjake/favoriteitem.dart';
 import 'package:plantjake/favoritedetail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:plantjake/favoriteitem.dart';
-import 'package:plantjake/favoriteservice.dart' show FavoriteService;
-import 'package:intl/intl.dart';
 
 class FavoriteItemPage extends StatefulWidget {
   const FavoriteItemPage({super.key});
@@ -16,7 +17,6 @@ class FavoriteItemPage extends StatefulWidget {
 
 class FavoriteItemPageState extends State<FavoriteItemPage> {
   List<FavoriteItem> favoriteItems = [];
-  FavoriteService favoriteService = FavoriteService();
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class FavoriteItemPageState extends State<FavoriteItemPage> {
       appBar: AppBar(
         backgroundColor: const Color(0xFFFFFFFF),
         title: const Text(
-          'Favorite',
+          'Favorit',
           style: TextStyle(
             fontFamily: "Baloo2",
             fontSize: 30,
@@ -61,64 +61,103 @@ class FavoriteItemPageState extends State<FavoriteItemPage> {
           ),
         ),
         toolbarHeight: 80,
-        // elevation: 5,
       ),
-      body: ListView.builder(
-        itemCount: favoriteItems.length,
-        itemBuilder: (context, index) {
-          final favoriteItem = favoriteItems[index];
-          return Dismissible(
-            key: Key(favoriteItem.label),
-            direction: DismissDirection.endToStart,
-            onDismissed: (direction) {
-              _deleteFavorite(index);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('${favoriteItem.label} deleted'),
+      body: favoriteItems.isEmpty
+          ? const Center(
+              child: Text(
+                'Belum ada tanaman favorit-mu disini, ayo kita cari',
+                style: TextStyle(
+                  fontFamily: "Baloo2",
+                  fontSize: 20,
+                  color: Colors.grey,
                 ),
-              );
-            },
-            background: Container(
-              color: Colors.red,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              alignment: AlignmentDirectional.centerEnd,
-              child: const Icon(
-                Icons.delete,
-                color: Colors.white,
+                textAlign: TextAlign.center,
               ),
+            )
+          : ListView.builder(
+              itemCount: favoriteItems.length,
+              itemBuilder: (context, index) {
+                final favoriteItem = favoriteItems[index];
+                return Dismissible(
+                  key: Key(favoriteItem.label),
+                  direction: DismissDirection.endToStart,
+                  onDismissed: (direction) {
+                    _deleteFavorite(index);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('${favoriteItem.label} deleted'),
+                      ),
+                    );
+                  },
+                  background: Container(
+                    color: Colors.red,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: const Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                    ),
+                  ),
+                  child: Card(
+                    color: Colors.white,
+                    child: ListTile(
+                      leading: Container(
+                        width: 70,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            color: Colors.grey[300]!,
+                            width: 1,
+                          ),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5),
+                          // ignore: unnecessary_null_comparison
+                          child: favoriteItem.imagePath != null
+                              ? Image.file(
+                                  File(favoriteItem.imagePath),
+                                  width: 70,
+                                  height: 50,
+                                  fit: BoxFit.cover,
+                                )
+                              : const Icon(
+                                  Icons.image,
+                                  size: 50,
+                                  color: Colors.grey,
+                                ),
+                        ),
+                      ),
+                      title: Text(favoriteItem.label),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${favoriteItem.confidence.toStringAsFixed(2)}%',
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                          Text(
+                            DateFormat('dd/MM/yyyy HH:mm')
+                                .format(favoriteItem.dateSaved),
+                            style: const TextStyle(
+                                fontSize: 12, color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                FavoriteDetail(favoriteItem: favoriteItem),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                );
+              },
             ),
-            child: Card(
-              color: Colors.white,
-              child: ListTile(
-                title: Text(favoriteItem.label),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${favoriteItem.confidence.toStringAsFixed(2)}%',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    Text(
-                      DateFormat('dd/MM/yyyy HH:mm').format(
-                          favoriteItem.dateSaved), // Tampilkan tanggal disimpan
-                      style: const TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
-                  ],
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          FavoriteDetail(favoriteItem: favoriteItem),
-                    ),
-                  );
-                },
-              ),
-            ),
-          );
-        },
-      ),
     );
   }
 }
